@@ -1,4 +1,3 @@
-
 // 로컬 스토리지에서 데이터 로드
 function loadApplicationsFromLocalStorage() {
     const data = localStorage.getItem('courseApplications');
@@ -97,6 +96,9 @@ function initAdminPage() {
     // 수강신청 목록 초기화
     initApplications();
     
+    // 내보내기 버튼 설정 추가
+    setupExportButtons();
+    
     // 통계 초기화
     initStatistics();
     
@@ -111,6 +113,19 @@ function initAdminPage() {
     
     // 폼 제출 이벤트 설정
     setupFormEvents();
+}
+
+// 내보내기 버튼 설정 함수
+function setupExportButtons() {
+    const exportBtn = document.getElementById('export-btn');
+    if (exportBtn) {
+        // 기존 이벤트 제거하고 새로 등록
+        const newExportBtn = exportBtn.cloneNode(true);
+        exportBtn.parentNode.replaceChild(newExportBtn, exportBtn);
+        
+        // 새 이벤트 등록
+        document.getElementById('export-btn').addEventListener('click', showExportOptions);
+    }
 }
 
 // 날짜와 시간 업데이트
@@ -356,37 +371,6 @@ function loadRecentApplications() {
 
 // 수강신청 목록 초기화
 function initApplications() {
- // 날짜와 시간 업데이트
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-    
-    // 네비게이션 이벤트
-    setupNavigation();
-    
-    // 대시보드 초기화
-    initDashboard();
-    
-    // 수강신청 목록 초기화
-    initApplications();
-    
-    // 내보내기 버튼 설정 추가 (여기에 추가!)
-    setupExportButtons();
-    
-    // 통계 초기화
-    initStatistics();
-    
-    // 레벨 관리 초기화
-    initLevelManagement();
-    
-    // 설정 초기화
-    initSettings();
-    
-    // 모달 이벤트 설정
-    setupModalEvents();
-    
-    // 폼 제출 이벤트 설정
-    setupFormEvents();
-}
     setupApplicationFilters();
     setupApplicationActions();
     refreshApplicationsTable();
@@ -485,17 +469,7 @@ function setupApplicationActions() {
             document.getElementById('batch-action').value = '';
         });
     }
-    
-    // 내보내기 버튼
-    const exportBtn = document.getElementById('export-btn');
-    if (exportBtn) {
-        exportBtn.addEventListener('click', function() {
-            exportApplications();
-        });
-    }
 }
-
-// 기존 exportApplications 함수 아래에 추가
 
 // CSV 형식으로 내보내기
 function exportToCSV() {
@@ -868,16 +842,17 @@ function showExportOptions() {
     });
 }
 
-// 기존 내보내기 버튼 이벤트 수정
-function setupExportButtons() {
-    const exportBtn = document.getElementById('export-btn');
-    if (exportBtn) {
-        // 기존 이벤트 제거
-        exportBtn.replaceWith(exportBtn.cloneNode(true));
-        
-        // 새 이벤트 등록
-        document.getElementById('export-btn').addEventListener('click', showExportOptions);
-    }
+// 데이터 내보내기
+function exportApplications() {
+    const dataStr = JSON.stringify(applications, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = `수강신청_내역_${new Date().toISOString().slice(0,10)}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
 }
 
 // 수강신청 테이블 새로고침
@@ -1204,19 +1179,6 @@ function deleteApplication(id) {
         updateDashboardStats();
         alert('삭제되었습니다.');
     }
-}
-
-// 데이터 내보내기
-function exportApplications() {
-    const dataStr = JSON.stringify(applications, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = `수강신청_내역_${new Date().toISOString().slice(0,10)}.json`;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
 }
 
 // 통계 초기화
