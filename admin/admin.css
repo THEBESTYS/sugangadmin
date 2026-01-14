@@ -1,3 +1,4 @@
+
 :root {
     --primary: #2C5AA0;
     --secondary: #FF6B35;
@@ -961,5 +962,113 @@ tbody tr:hover {
     .filter-controls select,
     .filter-controls input {
         width: 100%;
+    }
+}
+
+/* 기존 스타일에 추가 */
+
+/* 내보내기 옵션 스타일 */
+.export-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.export-option {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.export-option:hover {
+    background: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.export-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary) 0%, #1a3a7a 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.export-info h4 {
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.export-info p {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.export-notice {
+    background: #e8f4fd;
+    border-radius: 8px;
+    padding: 1rem;
+    border-left: 4px solid var(--primary);
+}
+
+.export-notice p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--dark);
+}
+
+.export-notice i {
+    color: var(--primary);
+    margin-right: 0.5rem;
+}
+
+/* 설정 페이지에 내보내기 버튼 스타일 */
+.backup-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.backup-options .btn-primary,
+.backup-options .btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .export-option {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .export-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .export-info h4 {
+        font-size: 1rem;
+    }
+    
+    .export-info p {
+        font-size: 0.8rem;
     }
 }
