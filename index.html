@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -581,6 +580,24 @@
                 font-size: 1rem;
             }
         }
+        
+        /* 관리자 링크 스타일 */
+        .admin-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .admin-link:hover {
+            background-color: var(--primary);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -819,6 +836,7 @@
                         
                         <div class="form-submit">
                             <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> 수강신청 제출하기</button>
+                            <a href="admin/" class="admin-link">관리자 페이지</a>
                         </div>
                     </form>
                 </div>
@@ -946,7 +964,7 @@
     </footer>
 
     <script>
-        // 폼 제출 처리
+        // 폼 제출 처리 - 로컬 스토리지에 저장
         document.getElementById('applicationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -965,6 +983,7 @@
             
             // 폼 데이터 수집
             const formData = {
+                id: Date.now(), // 고유 ID 생성
                 name: name,
                 birth: document.getElementById('birth').value,
                 phone: phone,
@@ -973,17 +992,117 @@
                 courseLevel: courseLevel,
                 schedule: schedule,
                 options: Array.from(document.querySelectorAll('input[name="options"]:checked')).map(cb => cb.value),
-                message: document.getElementById('message').value
+                message: document.getElementById('message').value,
+                status: 'pending',
+                appliedAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD 형식
             };
             
-            // 실제 구현 시 여기서 서버로 데이터 전송
-            console.log('수강신청 데이터:', formData);
+            // 로컬 스토리지에 저장
+            saveToLocalStorage(formData);
             
             // 성공 메시지 표시
             alert('수강신청이 완료되었습니다!\n빠른 시일 내에 담당자가 연락드리겠습니다.\n감사합니다.');
             
             // 폼 초기화
             this.reset();
+        });
+        
+        // 로컬 스토리지에 데이터 저장
+        function saveToLocalStorage(applicationData) {
+            // 기존 데이터 불러오기
+            let applications = JSON.parse(localStorage.getItem('courseApplications')) || [];
+            
+            // 새 데이터 추가
+            applications.push(applicationData);
+            
+            // 로컬 스토리지에 저장 (최대 100개 저장)
+            if (applications.length > 100) {
+                applications = applications.slice(-100);
+            }
+            
+            localStorage.setItem('courseApplications', JSON.stringify(applications));
+            console.log('데이터가 저장되었습니다. 총 신청 건수:', applications.length);
+        }
+        
+        // 페이지 로드 시 테스트 데이터 추가 (개발용)
+        window.addEventListener('load', function() {
+            // 테스트 데이터가 없으면 추가
+            if (!localStorage.getItem('courseApplications')) {
+                const testData = [
+                    {
+                        id: 1,
+                        name: "김영희",
+                        birth: "1990-05-15",
+                        phone: "010-1234-5678",
+                        email: "younghee@email.com",
+                        englishLevel: "intermediate",
+                        courseLevel: "intermediate-2",
+                        schedule: "evening",
+                        options: ["level-test"],
+                        message: "레벨 테스트를 원합니다",
+                        status: "pending",
+                        appliedAt: "2023-10-15"
+                    },
+                    {
+                        id: 2,
+                        name: "이민수",
+                        birth: "1985-11-22",
+                        phone: "010-2345-6789",
+                        email: "minsoo@email.com",
+                        englishLevel: "beginner",
+                        courseLevel: "basic-1",
+                        schedule: "morning",
+                        options: ["level-test", "trial"],
+                        message: "체험 수강 후 결정하려고 합니다",
+                        status: "confirmed",
+                        appliedAt: "2023-10-14"
+                    },
+                    {
+                        id: 3,
+                        name: "박지훈",
+                        birth: "1992-03-08",
+                        phone: "010-3456-7890",
+                        email: "jihun@email.com",
+                        englishLevel: "advanced",
+                        courseLevel: "advanced-1",
+                        schedule: "weekend",
+                        options: ["material"],
+                        message: "비즈니스 영어를 집중적으로 배우고 싶습니다",
+                        status: "pending",
+                        appliedAt: "2023-10-13"
+                    },
+                    {
+                        id: 4,
+                        name: "정수진",
+                        birth: "1995-07-30",
+                        phone: "010-4567-8901",
+                        email: "sujin@email.com",
+                        englishLevel: "intermediate",
+                        courseLevel: "intermediate-1",
+                        schedule: "afternoon",
+                        options: [],
+                        message: "",
+                        status: "canceled",
+                        appliedAt: "2023-10-12"
+                    },
+                    {
+                        id: 5,
+                        name: "최윤호",
+                        birth: "1988-12-05",
+                        phone: "010-5678-9012",
+                        email: "yunho@email.com",
+                        englishLevel: "beginner",
+                        courseLevel: "first-discoveries",
+                        schedule: "evening",
+                        options: ["level-test", "trial"],
+                        message: "처음 배우는 영어입니다",
+                        status: "confirmed",
+                        appliedAt: "2023-10-11"
+                    }
+                ];
+                localStorage.setItem('courseApplications', JSON.stringify(testData));
+                console.log('테스트 데이터가 생성되었습니다.');
+            }
         });
         
         // 영어 레벨 선택 시 레벨 선택 자동 조정
