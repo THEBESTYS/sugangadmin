@@ -356,6 +356,37 @@ function loadRecentApplications() {
 
 // 수강신청 목록 초기화
 function initApplications() {
+ // 날짜와 시간 업데이트
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+    
+    // 네비게이션 이벤트
+    setupNavigation();
+    
+    // 대시보드 초기화
+    initDashboard();
+    
+    // 수강신청 목록 초기화
+    initApplications();
+    
+    // 내보내기 버튼 설정 추가 (여기에 추가!)
+    setupExportButtons();
+    
+    // 통계 초기화
+    initStatistics();
+    
+    // 레벨 관리 초기화
+    initLevelManagement();
+    
+    // 설정 초기화
+    initSettings();
+    
+    // 모달 이벤트 설정
+    setupModalEvents();
+    
+    // 폼 제출 이벤트 설정
+    setupFormEvents();
+}
     setupApplicationFilters();
     setupApplicationActions();
     refreshApplicationsTable();
