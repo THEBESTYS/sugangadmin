@@ -1,3 +1,4 @@
+
 // 로컬 스토리지에서 데이터 로드
 function loadApplicationsFromLocalStorage() {
     const data = localStorage.getItem('courseApplications');
@@ -460,6 +461,391 @@ function setupApplicationActions() {
         exportBtn.addEventListener('click', function() {
             exportApplications();
         });
+    }
+}
+
+// 기존 exportApplications 함수 아래에 추가
+
+// CSV 형식으로 내보내기
+function exportToCSV() {
+    if (applications.length === 0) {
+        alert('내보낼 데이터가 없습니다.');
+        return;
+    }
+    
+    // 필터링된 데이터 가져오기
+    let filteredApps = filterApplications();
+    
+    // CSV 헤더 정의
+    const headers = [
+        '번호', '이름', '생년월일', '연락처', '이메일',
+        '영어실력', '희망레벨', '희망시간대', '추가옵션',
+        '문의사항', '상태', '신청일'
+    ];
+    
+    // CSV 데이터 생성
+    let csvContent = headers.join(',') + '\n';
+    
+    filteredApps.forEach(app => {
+        const row = [
+            app.id,
+            `"${app.name}"`, // 이름에 쉼표가 있을 수 있어서 쿼테이션 추가
+            app.birth,
+            `"${app.phone}"`,
+            `"${app.email}"`,
+            getEnglishLevelText(app.englishLevel).replace(/"/g, '""'), // 쿼테이션 이스케이프
+            `"${levelInfo[app.courseLevel] || app.courseLevel}"`,
+            `"${scheduleInfo[app.schedule] || app.schedule}"`,
+            `"${getOptionsText(app.options)}"`,
+            app.message ? `"${app.message.replace(/"/g, '""')}"` : '""', // 메시지 내 쿼테이션 처리
+            getStatusText(app.status),
+            app.appliedAt
+        ];
+        csvContent += row.join(',') + '\n';
+    });
+    
+    // 파일 다운로드
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `수강신청_내역_${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+    
+    alert(`CSV 파일이 다운로드되었습니다. (총 ${filteredApps.length}건)`);
+}
+
+// Excel 형식으로 내보내기 (SheetJS 라이브러리 사용)
+function exportToExcel() {
+    if (applications.length === 0) {
+        alert('내보낼 데이터가 없습니다.');
+        return;
+    }
+    
+    // SheetJS 라이브러리 로드 확인
+    if (typeof XLSX === 'undefined') {
+        if (confirm('Excel 내보내기 기능을 사용하려면 SheetJS 라이브러리가 필요합니다. 지금 로드하시겠습니까?')) {
+            loadSheetJS();
+            return;
+        }
+        return;
+    }
+    
+    // 필터링된 데이터 가져오기
+    let filteredApps = filterApplications();
+    
+    // 워크시트 데이터 생성
+    const worksheetData = [
+        // 헤더 행
+        [
+            '번호', '이름', '생년월일', '연락처', '이메일',
+            '영어실력', '희망레벨', '희망시간대', '추가옵션',
+            '문의사항', '상태', '신청일'
+        ],
+        // 데이터 행들
+        ...filteredApps.map(app => [
+            app.id,
+            app.name,
+            app.birth,
+            app.phone,
+            app.email,
+            getEnglishLevelText(app.englishLevel),
+            levelInfo[app.courseLevel] || app.courseLevel,
+            scheduleInfo[app.schedule] || app.schedule,
+            getOptionsText(app.options),
+            app.message || '',
+            getStatusText(app.status),
+            app.appliedAt
+        ])
+    ];
+    
+    // 워크시트 생성
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    
+    // 열 너비 설정
+    const colWidths = [
+        { wch: 8 },  // 번호
+        { wch: 10 }, // 이름
+        { wch: 12 }, // 생년월일
+        { wch: 15 }, // 연락처
+        { wch: 25 }, // 이메일
+        { wch: 15 }, // 영어실력
+        { wch: 20 }, // 희망레벨
+        { wch: 20 }, // 희망시간대
+        { wch: 25 }, // 추가옵션
+        { wch: 30 }, // 문의사항
+        { wch: 10 }, // 상태
+        { wch: 12 }  // 신청일
+    ];
+    worksheet['!cols'] = colWidths;
+    
+    // 워크북 생성
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '수강신청내역');
+    
+    // 파일 다운로드
+    XLSX.writeFile(workbook, `수강신청_내역_${new Date().toISOString().slice(0,10)}.xlsx`);
+    
+    alert(`Excel 파일이 다운로드되었습니다. (총 ${filteredApps.length}건)`);
+}
+
+// SheetJS 라이브러리 동적 로드
+function loadSheetJS() {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    script.onload = function() {
+        alert('SheetJS 라이브러리가 로드되었습니다. 다시 시도해주세요.');
+    };
+    script.onerror = function() {
+        alert('라이브러리 로드에 실패했습니다. CSV로 내보내기를 사용해주세요.');
+    };
+    document.head.appendChild(script);
+}
+
+// 통계 데이터 Excel로 내보내기
+function exportStatisticsToExcel() {
+    if (applications.length === 0) {
+        alert('통계 데이터가 없습니다.');
+        return;
+    }
+    
+    // SheetJS 라이브러리 로드 확인
+    if (typeof XLSX === 'undefined') {
+        if (confirm('Excel 내보내기 기능을 사용하려면 SheetJS 라이브러리가 필요합니다. 지금 로드하시겠습니까?')) {
+            loadSheetJS();
+            return;
+        }
+        return;
+    }
+    
+    // 통계 데이터 계산
+    const stats = calculateStatistics();
+    
+    // 워크북 생성
+    const workbook = XLSX.utils.book_new();
+    
+    // 1. 요약 시트
+    const summaryData = [
+        ['수강신청 통계 요약', '', '', ''],
+        ['생성일', new Date().toLocaleDateString('ko-KR'), '', ''],
+        ['', '', '', ''],
+        ['구분', '건수', '비율', '비고'],
+        ['총 신청건수', stats.total, '100%', ''],
+        ['대기 중', stats.pending, ((stats.pending / stats.total) * 100).toFixed(1) + '%', ''],
+        ['확정', stats.confirmed, ((stats.confirmed / stats.total) * 100).toFixed(1) + '%', ''],
+        ['취소', stats.canceled, ((stats.canceled / stats.total) * 100).toFixed(1) + '%', ''],
+        ['', '', '', ''],
+        ['레벨별 현황', '', '', ''],
+        ['초급 과정', stats.levelCounts.beginner || 0, '', ''],
+        ['중급 과정', stats.levelCounts.intermediate || 0, '', ''],
+        ['고급 과정', stats.levelCounts.advanced || 0, '', ''],
+        ['미정', stats.levelCounts.unknown || 0, '', ''],
+        ['', '', '', ''],
+        ['시간대별 현황', '', '', ''],
+        ['오전반', stats.timeCounts.morning || 0, '', ''],
+        ['오후반', stats.timeCounts.afternoon || 0, '', ''],
+        ['저녁반', stats.timeCounts.evening || 0, '', ''],
+        ['주말반', stats.timeCounts.weekend || 0, '', '']
+    ];
+    
+    const summarySheet = XLSX.utils.aoa_to_sheet(summaryData);
+    summarySheet['!cols'] = [
+        { wch: 20 }, { wch: 15 }, { wch: 15 }, { wch: 20 }
+    ];
+    XLSX.utils.book_append_sheet(workbook, summarySheet, '통계요약');
+    
+    // 2. 상세 내역 시트
+    const detailData = [
+        ['번호', '이름', '생년월일', '연락처', '이메일', '영어실력', '희망레벨', '희망시간대', '상태', '신청일']
+    ];
+    
+    applications.forEach(app => {
+        detailData.push([
+            app.id,
+            app.name,
+            app.birth,
+            app.phone,
+            app.email,
+            getEnglishLevelText(app.englishLevel),
+            levelInfo[app.courseLevel] || app.courseLevel,
+            scheduleInfo[app.schedule] || app.schedule,
+            getStatusText(app.status),
+            app.appliedAt
+        ]);
+    });
+    
+    const detailSheet = XLSX.utils.aoa_to_sheet(detailData);
+    detailSheet['!cols'] = [
+        { wch: 8 }, { wch: 10 }, { wch: 12 }, { wch: 15 },
+        { wch: 25 }, { wch: 15 }, { wch: 20 }, { wch: 20 },
+        { wch: 10 }, { wch: 12 }
+    ];
+    XLSX.utils.book_append_sheet(workbook, detailSheet, '상세내역');
+    
+    // 3. 레벨별 분석 시트
+    const levelAnalysisData = [
+        ['레벨', '신청자수', '확정자수', '확정율', '대기자수', '취소자수']
+    ];
+    
+    // 레벨별 통계 계산
+    const levelStats = {};
+    applications.forEach(app => {
+        const level = app.courseLevel || '미정';
+        if (!levelStats[level]) {
+            levelStats[level] = { total: 0, confirmed: 0, pending: 0, canceled: 0 };
+        }
+        levelStats[level].total++;
+        levelStats[level][app.status]++;
+    });
+    
+    Object.keys(levelStats).forEach(level => {
+        const stats = levelStats[level];
+        const confirmationRate = stats.total > 0 ? 
+            ((stats.confirmed / stats.total) * 100).toFixed(1) + '%' : '0%';
+        
+        levelAnalysisData.push([
+            levelInfo[level] || level,
+            stats.total,
+            stats.confirmed,
+            confirmationRate,
+            stats.pending,
+            stats.canceled
+        ]);
+    });
+    
+    const levelSheet = XLSX.utils.aoa_to_sheet(levelAnalysisData);
+    levelSheet['!cols'] = [
+        { wch: 25 }, { wch: 12 }, { wch: 12 }, 
+        { wch: 12 }, { wch: 12 }, { wch: 12 }
+    ];
+    XLSX.utils.book_append_sheet(workbook, levelSheet, '레벨별분석');
+    
+    // 파일 다운로드
+    XLSX.writeFile(workbook, `수강신청_통계_${new Date().toISOString().slice(0,10)}.xlsx`);
+    
+    alert('통계 Excel 파일이 다운로드되었습니다. (3개 시트 포함)');
+}
+
+// 통계 데이터 계산
+function calculateStatistics() {
+    const stats = {
+        total: applications.length,
+        pending: applications.filter(app => app.status === 'pending').length,
+        confirmed: applications.filter(app => app.status === 'confirmed').length,
+        canceled: applications.filter(app => app.status === 'canceled').length,
+        levelCounts: {},
+        timeCounts: {}
+    };
+    
+    // 레벨별 카운트
+    applications.forEach(app => {
+        const levelGroup = getLevelGroup(app.courseLevel);
+        stats.levelCounts[levelGroup] = (stats.levelCounts[levelGroup] || 0) + 1;
+    });
+    
+    // 시간대별 카운트
+    applications.forEach(app => {
+        stats.timeCounts[app.schedule] = (stats.timeCounts[app.schedule] || 0) + 1;
+    });
+    
+    return stats;
+}
+
+// 내보내기 옵션 모달 표시
+function showExportOptions() {
+    const modalContent = `
+        <div class="modal-header">
+            <h3>데이터 내보내기 옵션</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="export-options">
+                <div class="export-option" onclick="exportToCSV()">
+                    <div class="export-icon">
+                        <i class="fas fa-file-csv"></i>
+                    </div>
+                    <div class="export-info">
+                        <h4>CSV 파일로 내보내기</h4>
+                        <p>엑셀, 구글시트 등에서 열 수 있는 일반 텍스트 형식</p>
+                    </div>
+                </div>
+                
+                <div class="export-option" onclick="exportToExcel()">
+                    <div class="export-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <div class="export-info">
+                        <h4>Excel 파일로 내보내기</h4>
+                        <p>포맷이 유지되는 MS Excel 형식 (.xlsx)</p>
+                    </div>
+                </div>
+                
+                <div class="export-option" onclick="exportStatisticsToExcel()">
+                    <div class="export-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="export-info">
+                        <h4>통계 보고서 내보내기</h4>
+                        <p>요약, 상세내역, 레벨별 분석이 포함된 Excel 파일</p>
+                    </div>
+                </div>
+                
+                <div class="export-option" onclick="exportApplications()">
+                    <div class="export-icon">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <div class="export-info">
+                        <h4>JSON 형식으로 내보내기</h4>
+                        <p>원본 데이터 백업 또는 다른 시스템으로 가져오기용</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="export-notice">
+                <p><i class="fas fa-info-circle"></i> 현재 필터 적용 상태: 
+                    <strong>${filterApplications().length}건</strong>의 데이터가 내보내어집니다.</p>
+                <p><i class="fas fa-lightbulb"></i> 전체 데이터를 내보내려면 필터를 '전체 상태', '전체 레벨'로 설정하세요.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary close-modal">닫기</button>
+        </div>
+    `;
+    
+    // 모달 생성
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.id = 'export-modal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 600px;">
+            ${modalContent}
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // 모달 닫기 이벤트
+    modal.querySelector('.close-modal').addEventListener('click', () => {
+        modal.remove();
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+// 기존 내보내기 버튼 이벤트 수정
+function setupExportButtons() {
+    const exportBtn = document.getElementById('export-btn');
+    if (exportBtn) {
+        // 기존 이벤트 제거
+        exportBtn.replaceWith(exportBtn.cloneNode(true));
+        
+        // 새 이벤트 등록
+        document.getElementById('export-btn').addEventListener('click', showExportOptions);
     }
 }
 
