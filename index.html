@@ -1,0 +1,1050 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>더베스트 어학원 - English Discoveries 수강신청</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+    <style>
+        :root {
+            --primary: #2C5AA0; /* ETS 블루 */
+            --secondary: #FF6B35; /* 오렌지 액센트 */
+            --accent: #4CAF50; /* 그린 */
+            --light: #F8F9FA;
+            --dark: #212529;
+            --gray: #6C757D;
+            --light-blue: #E8F4FD;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a3a7a 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .contact-info {
+            text-align: right;
+        }
+        
+        .contact-info p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .phone {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #FFD166;
+        }
+        
+        /* 네비게이션 */
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            padding: 0.6rem 1.5rem;
+            background: var(--secondary);
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cta-button:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-bottom: 3rem;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e55a2b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* 섹션 공통 */
+        .section {
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 레벨 소개 섹션 */
+        .levels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .level-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        
+        .level-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .level-header {
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .level-beginner {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+        }
+        
+        .level-intermediate {
+            background: linear-gradient(to right, #2196F3, #0D47A1);
+        }
+        
+        .level-advanced {
+            background: linear-gradient(to right, #9C27B0, #6A1B9A);
+        }
+        
+        .level-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .level-body {
+            padding: 1.5rem;
+        }
+        
+        .level-body ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .level-body li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .level-body li i {
+            color: var(--secondary);
+            margin-top: 3px;
+        }
+        
+        .level-footer {
+            padding: 1rem 1.5rem;
+            background: var(--light);
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        
+        /* 수강신청 폼 */
+        .application-section {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 4rem;
+        }
+        
+        .form-header {
+            background: linear-gradient(to right, var(--primary), #1a3a7a);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .form-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-container {
+            padding: 2rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .checkbox-group input {
+            margin-top: 3px;
+        }
+        
+        .form-submit {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .submit-btn {
+            padding: 1rem 3rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 강사 소개 */
+        .instructors-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .instructor-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+        
+        .instructor-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 5px solid var(--light);
+        }
+        
+        /* 혜택 섹션 */
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* 푸터 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: #ddd;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #aaa;
+            margin-bottom: 0.8rem;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .contact-info {
+                text-align: center;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>더베스트 어학원</h1>
+                        <p>공식 English Discoveries 교육기관</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone-alt"></i> 수강문의</p>
+                    <p class="phone">02-1234-5678</p>
+                    <p>평일 09:00 - 18:00</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="container nav-container">
+            <ul class="nav-links">
+                <li><a href="#home"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="#levels"><i class="fas fa-layer-group"></i> 레벨소개</a></li>
+                <li><a href="#apply"><i class="fas fa-edit"></i> 수강신청</a></li>
+                <li><a href="#instructors"><i class="fas fa-chalkboard-teacher"></i> 강사소개</a></li>
+                <li><a href="#benefits"><i class="fas fa-gift"></i> 특별혜택</a></li>
+            </ul>
+            <a href="#apply" class="cta-button"><i class="fas fa-paper-plane"></i> 바로 신청하기</a>
+        </div>
+    </nav>
+    
+    <!-- 히어로 섹션 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>English Discoveries 정규과정 모집</h2>
+            <p>ETS 공식 인증 프로그램으로 체계적으로 영어 실력을 키우세요. 10단계 레벨 시스템으로 맞춤형 학습이 가능합니다.</p>
+            <div class="hero-buttons">
+                <a href="#apply" class="btn btn-primary"><i class="fas fa-edit"></i> 수강신청 하기</a>
+                <a href="#levels" class="btn btn-secondary"><i class="fas fa-info-circle"></i> 레벨 안내 보기</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 메인 콘텐츠 -->
+    <main class="container">
+        <!-- 레벨 소개 섹션 -->
+        <section class="section" id="levels">
+            <div class="section-title">
+                <h2>English Discoveries 10단계 레벨 시스템</h2>
+                <p>CEFR 기준에 따른 체계적인 레벨 구분으로 맞춤형 학습이 가능합니다</p>
+            </div>
+            
+            <div class="levels-container">
+                <!-- 초급 레벨 -->
+                <div class="level-card">
+                    <div class="level-header level-beginner">
+                        <h3>초급 과정</h3>
+                        <p>First Discoveries ~ Basic 3</p>
+                    </div>
+                    <div class="level-body">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> <strong>First Discoveries</strong> (Pre-A1) - 영어 입문</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Basic 1</strong> (A1) - 기초 회화</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Basic 2</strong> (A1+) - 일상 표현 확장</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Basic 3</strong> (A2) - 기본 의사소통 완성</li>
+                        </ul>
+                        <p><strong>학습 목표:</strong> 일상 생활에서 필요한 기본 영어 구사</p>
+                    </div>
+                    <div class="level-footer">
+                        <strong>추천 대상:</strong> 영어 초보자, 기초부터 체계적으로 배우고 싶은 분
+                    </div>
+                </div>
+                
+                <!-- 중급 레벨 -->
+                <div class="level-card">
+                    <div class="level-header level-intermediate">
+                        <h3>중급 과정</h3>
+                        <p>Intermediate 1 ~ 3</p>
+                    </div>
+                    <div class="level-body">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> <strong>Intermediate 1</strong> (A2+) - 중급 입문</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Intermediate 2</strong> (B1) - 실용 영어</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Intermediate 3</strong> (B1+) - 고급 중급</li>
+                        </ul>
+                        <p><strong>학습 목표:</strong> 사회적, 직업적 상황에서 효과적인 의사소통</p>
+                    </div>
+                    <div class="level-footer">
+                        <strong>추천 대상:</strong> 기본 회화는 가능하나 유창함을 원하시는 분
+                    </div>
+                </div>
+                
+                <!-- 고급 레벨 -->
+                <div class="level-card">
+                    <div class="level-header level-advanced">
+                        <h3>고급 과정</h3>
+                        <p>Advanced 1 ~ 3</p>
+                    </div>
+                    <div class="level-body">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> <strong>Advanced 1</strong> (B2) - 고급 입문</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Advanced 2</strong> (B2+) - 전문적 표현</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Advanced 3</strong> (C1) - 원어민 수준</li>
+                        </ul>
+                        <p><strong>학습 목표:</strong> 복잡한 주제에 대한 유창한 표현, 전문적 언어 구사</p>
+                    </div>
+                    <div class="level-footer">
+                        <strong>추천 대상:</strong> 비즈니스, 학술적 목적의 고급 영어가 필요한 분
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <p><i class="fas fa-info-circle" style="color: var(--primary);"></i> 레벨 테스트를 통해 정확한 레벨을 진단해 드립니다. 수강 신청 시 무료 레벨 테스트가 포함됩니다.</p>
+            </div>
+        </section>
+        
+        <!-- 수강신청 폼 -->
+        <section class="section" id="apply">
+            <div class="section-title">
+                <h2>수강신청</h2>
+                <p>아래 양식을 작성하여 English Discoveries 과정에 신청하세요</p>
+            </div>
+            
+            <div class="application-section">
+                <div class="form-header">
+                    <h3>English Discoveries 수강신청서</h3>
+                    <p>빠른 시일 내에 담당자가 연락드리겠습니다</p>
+                </div>
+                
+                <div class="form-container">
+                    <form id="applicationForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">이름 *</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="birth">생년월일 *</label>
+                                <input type="date" id="birth" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">휴대전화 *</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="010-1234-5678" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">이메일 *</label>
+                                <input type="email" id="email" class="form-control" placeholder="example@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>현재 영어 실력은 어떻게 되시나요? *</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="level-beginner" name="english-level" value="beginner" required>
+                                    <label for="level-beginner">초보 (기초부터 배우고 싶어요)</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="level-intermediate" name="english-level" value="intermediate">
+                                    <label for="level-intermediate">중급 (기본 회화는 가능해요)</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="level-advanced" name="english-level" value="advanced">
+                                    <label for="level-advanced">고급 (비즈니스 영어가 필요해요)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="course-level">희망 레벨 선택 *</label>
+                            <select id="course-level" class="form-control" required>
+                                <option value="">-- 레벨을 선택하세요 --</option>
+                                <optgroup label="초급 과정">
+                                    <option value="first-discoveries">First Discoveries (Pre-A1) - 영어 입문</option>
+                                    <option value="basic-1">Basic 1 (A1) - 기초 회화</option>
+                                    <option value="basic-2">Basic 2 (A1+) - 일상 표현</option>
+                                    <option value="basic-3">Basic 3 (A2) - 기본 의사소통</option>
+                                </optgroup>
+                                <optgroup label="중급 과정">
+                                    <option value="intermediate-1">Intermediate 1 (A2+) - 중급 입문</option>
+                                    <option value="intermediate-2">Intermediate 2 (B1) - 실용 영어</option>
+                                    <option value="intermediate-3">Intermediate 3 (B1+) - 고급 중급</option>
+                                </optgroup>
+                                <optgroup label="고급 과정">
+                                    <option value="advanced-1">Advanced 1 (B2) - 고급 입문</option>
+                                    <option value="advanced-2">Advanced 2 (B2+) - 전문적 표현</option>
+                                    <option value="advanced-3">Advanced 3 (C1) - 원어민 수준</option>
+                                </optgroup>
+                                <option value="test-needed">레벨 테스트 후 결정</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="schedule">희망 수강 시간 *</label>
+                            <select id="schedule" class="form-control" required>
+                                <option value="">-- 시간대를 선택하세요 --</option>
+                                <option value="morning">오전반 (09:00 - 12:00)</option>
+                                <option value="afternoon">오후반 (13:00 - 16:00)</option>
+                                <option value="evening">저녁반 (18:30 - 21:30)</option>
+                                <option value="weekend">주말반 (토요일 10:00 - 16:00)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>추가 옵션 (복수 선택 가능)</label>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="option-level-test" name="options" value="level-test">
+                                <label for="option-level-test">무료 레벨 테스트 신청</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="option-trial" name="options" value="trial">
+                                <label for="option-trial">체험 수강 신청 (1회 무료)</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="option-material" name="options" value="material">
+                                <label for="option-material">교재 미리 받기 (선택 시 추가비용)</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">기타 문의사항</label>
+                            <textarea id="message" class="form-control" rows="4" placeholder="수강 관련 문의사항이나 특이사항이 있으면 적어주세요"></textarea>
+                        </div>
+                        
+                        <div class="form-submit">
+                            <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> 수강신청 제출하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 강사 소개 -->
+        <section class="section" id="instructors">
+            <div class="section-title">
+                <h2>전문 강사진</h2>
+                <p>English Discoveries 공인 강사로 구성된 베테랑 강사진</p>
+            </div>
+            
+            <div class="instructors-container">
+                <div class="instructor-card">
+                    <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="김영희 강사" class="instructor-img">
+                    <h3>김영희 강사</h3>
+                    <p>초급 과정 전문</p>
+                    <p>10년 경력, TESOL 자격증 보유</p>
+                    <p><i class="fas fa-star" style="color: #FFD700;"></i> 4.9/5.0 평점</p>
+                </div>
+                
+                <div class="instructor-card">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="이민수 강사" class="instructor-img">
+                    <h3>이민수 강사</h3>
+                    <p>중급 과정 전문</p>
+                    <p>前 미국 대학교 어학원 강사</p>
+                    <p><i class="fas fa-star" style="color: #FFD700;"></i> 4.8/5.0 평점</p>
+                </div>
+                
+                <div class="instructor-card">
+                    <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="박지훈 강사" class="instructor-img">
+                    <h3>박지훈 강사</h3>
+                    <p>고급 과정 전문</p>
+                    <p>비즈니스 영어 전문가, MBA</p>
+                    <p><i class="fas fa-star" style="color: #FFD700;"></i> 4.9/5.0 평점</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 특별 혜택 -->
+        <section class="section" id="benefits">
+            <div class="section-title">
+                <h2>특별 혜택</h2>
+                <p>더베스트 어학원에서 English Discoveries 수강 시 제공되는 혜택</p>
+            </div>
+            
+            <div class="benefits">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>공식 인증서 제공</h3>
+                    <p>레벨 완료 시 ETS Global 공식 인증서 발급</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>온라인 학습 플랫폼</h3>
+                    <p>24시간 접근 가능한 English Discoveries 플랫폼 제공</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>소규모 클래스</h1>
+                    <p>최대 8명 소수정예 수업으로 집중도 향상</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>체계적 진도 관리</h3>
+                    <p>주간 학습 리포트 및 맞춤형 피드백 제공</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>더베스트 어학원</h3>
+                    <p>공식 English Discoveries 교육기관</p>
+                    <p>서울시 강남구 테헤란로 123 더베스트 빌딩 5층</p>
+                    <p>대표번호: 02-1234-5678</p>
+                    <p>이메일: info@thebestacademy.co.kr</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>교육 과정</h3>
+                    <a href="#levels">초급 과정</a>
+                    <a href="#levels">중급 과정</a>
+                    <a href="#levels">고급 과정</a>
+                    <a href="#levels">레벨 테스트</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>이용 안내</h3>
+                    <a href="#">수강료 안내</a>
+                    <a href="#">교육 과정 안내</a>
+                    <a href="#">환불 규정</a>
+                    <a href="#">개인정보 처리방침</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>공식 파트너</h3>
+                    <p><i class="fas fa-certificate" style="color: #4CAF50;"></i> ETS Global 공인 기관</p>
+                    <p><i class="fas fa-certificate" style="color: #4CAF50;"></i> Edusoft 공식 파트너</p>
+                    <p>TOEFL® / TOEIC® 공식 시험 센터</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 더베스트 어학원. All rights reserved.</p>
+                <p>English Discoveries는 ETS Global의 등록 상표입니다. TOEFL 및 TOEIC은 ETS의 등록 상표입니다.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 폼 제출 처리
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 간단한 유효성 검사
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const level = document.querySelector('input[name="english-level"]:checked');
+            const courseLevel = document.getElementById('course-level').value;
+            const schedule = document.getElementById('schedule').value;
+            
+            if (!name || !phone || !email || !level || !courseLevel || !schedule) {
+                alert('필수 항목을 모두 입력해 주세요.');
+                return;
+            }
+            
+            // 폼 데이터 수집
+            const formData = {
+                name: name,
+                birth: document.getElementById('birth').value,
+                phone: phone,
+                email: email,
+                englishLevel: level.value,
+                courseLevel: courseLevel,
+                schedule: schedule,
+                options: Array.from(document.querySelectorAll('input[name="options"]:checked')).map(cb => cb.value),
+                message: document.getElementById('message').value
+            };
+            
+            // 실제 구현 시 여기서 서버로 데이터 전송
+            console.log('수강신청 데이터:', formData);
+            
+            // 성공 메시지 표시
+            alert('수강신청이 완료되었습니다!\n빠른 시일 내에 담당자가 연락드리겠습니다.\n감사합니다.');
+            
+            // 폼 초기화
+            this.reset();
+        });
+        
+        // 영어 레벨 선택 시 레벨 선택 자동 조정
+        document.querySelectorAll('input[name="english-level"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const levelSelect = document.getElementById('course-level');
+                const value = this.value;
+                
+                // 레벨에 맞는 옵션 선택 제안
+                if (value === 'beginner') {
+                    levelSelect.value = 'basic-1';
+                } else if (value === 'intermediate') {
+                    levelSelect.value = 'intermediate-2';
+                } else if (value === 'advanced') {
+                    levelSelect.value = 'advanced-1';
+                }
+            });
+        });
+        
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 네비게이션 활성화 표시
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if(scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                    link.style.color = 'var(--primary)';
+                } else {
+                    link.style.color = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
